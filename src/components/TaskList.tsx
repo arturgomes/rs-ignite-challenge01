@@ -15,14 +15,31 @@ export function TaskList() {
   const [newTaskTitle, setNewTaskTitle] = useState('');
 
   function handleCreateNewTask() {
-    // Crie uma nova task com um id random, não permita criar caso o título seja vazio.
+    if(!newTaskTitle) return ;
+    else {
+      const uid = Math.random();
+      const newTask = {
+        id:uid,
+        title:newTaskTitle,
+        isComplete:false
+      }
+      setTasks(ot => [...ot,newTask]);
+      setNewTaskTitle('');
+    }
   }
 
   function handleToggleTaskCompletion(id: number) {
+    const updateTask = tasks.map(t => 
+        t.id===id 
+          ? {...t, isComplete:!t.isComplete} 
+          : t)
+    setTasks(updateTask)
     // Altere entre `true` ou `false` o campo `isComplete` de uma task com dado ID
   }
 
   function handleRemoveTask(id: number) {
+    const updateTask = tasks.filter(t => t.id !== id)
+    setTasks(updateTask)
     // Remova uma task da listagem pelo ID
   }
 
@@ -45,8 +62,33 @@ export function TaskList() {
       </header>
 
       <main>
+
+      <ul>
+          {tasks.map(task => !task.isComplete && (
+            <li key={task.id}>
+              <div className={task.isComplete ? 'completed' : ''} data-testid="task" >
+                <label className="checkbox-container">
+                  <input 
+                    type="checkbox"
+                    readOnly
+                    checked={task.isComplete}
+                    onClick={() => handleToggleTaskCompletion(task.id)}
+                  />
+                  <span className="checkmark"></span>
+                </label>
+                <p>{task.title}</p>
+              </div>
+
+              <button type="button" data-testid="remove-task-button" onClick={() => handleRemoveTask(task.id)}>
+                <FiTrash size={16}/>
+              </button>
+            </li>
+          ))}
+          
+        </ul>
+        <p>Completed tasks</p>
         <ul>
-          {tasks.map(task => (
+          {tasks.map(task => task.isComplete &&(
             <li key={task.id}>
               <div className={task.isComplete ? 'completed' : ''} data-testid="task" >
                 <label className="checkbox-container">
