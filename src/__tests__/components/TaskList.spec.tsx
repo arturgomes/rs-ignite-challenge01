@@ -115,7 +115,6 @@ describe('App Page', () => {
       }
     });
     fireEvent.click(addTaskButton);
-
     const [addedFirstTask, addedSecondTask] = screen.getAllByTestId('task');
 
     if (addedFirstTask.firstChild) {
