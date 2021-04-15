@@ -71,44 +71,36 @@ export function TaskList() {
 
             <main>
                 <ul>
-                    {tasks.map(
-                        (task) =>
-                            !task.isComplete && (
-                                <li key={task.id}>
-                                    <div
-                                        className={
-                                            task.isComplete ? 'completed' : ''
-                                        }
-                                        data-testid="task"
-                                    >
-                                        <label className="checkbox-container">
-                                            <input
-                                                type="checkbox"
-                                                readOnly
-                                                checked={task.isComplete}
-                                                onClick={() =>
-                                                    handleToggleTaskCompletion(
-                                                        task.id
-                                                    )
-                                                }
-                                            />
-                                            <span className="checkmark"></span>
-                                        </label>
-                                        <p>{task.title}</p>
-                                    </div>
-
-                                    <button
-                                        type="button"
-                                        data-testid="remove-task-button"
+                    {tasks.map((task) => (
+                        //!task.isComplete &&
+                        <li key={task.id}>
+                            <div
+                                className={task.isComplete ? 'completed' : ''}
+                                data-testid="task"
+                            >
+                                <label className="checkbox-container">
+                                    <input
+                                        type="checkbox"
+                                        readOnly
+                                        checked={task.isComplete}
                                         onClick={() =>
-                                            handleRemoveTask(task.id)
+                                            handleToggleTaskCompletion(task.id)
                                         }
-                                    >
-                                        <FiTrash size={16} />
-                                    </button>
-                                </li>
-                            )
-                    )}
+                                    />
+                                    <span className="checkmark"></span>
+                                </label>
+                                <p>{task.title}</p>
+                            </div>
+
+                            <button
+                                type="button"
+                                data-testid="remove-task-button"
+                                onClick={() => handleRemoveTask(task.id)}
+                            >
+                                <FiTrash size={16} />
+                            </button>
+                        </li>
+                    ))}
                 </ul>
                 {/*<p>Completed tasks</p>
         <ul>
